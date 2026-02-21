@@ -15,16 +15,20 @@ import Contacts from './pages/Contacts';
 import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
 
-// Компонент для обработки скролла
 const ScrollHandler: React.FC = () => {
   useHashScroll();
   return null;
 };
 
+const routerFutureConfig = {
+  v7_startTransition: true,
+  v7_relativeSplatPath: true
+};
+
 function App() {
   return (
     <HelmetProvider>
-      <Router>
+      <Router future={routerFutureConfig}>
         <ScrollHandler />
         <div className="min-h-screen flex flex-col">
           <Header />

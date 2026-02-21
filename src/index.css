@@ -47,3 +47,174 @@
     @apply bg-bg-secondary rounded-xl p-6 transition-all duration-300 hover:scale-105;
   }
 }
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover);
+}
+/* Стили для PhoneInput */
+.PhoneInput {
+  --PhoneInput-color--focus: #91CB7D;
+  --PhoneInputInternationalIconPhone-opacity: 0.8;
+  --PhoneInputInternationalIconGlobe-opacity: 0.65;
+  --PhoneInputCountrySelect-marginRight: 0.5em;
+  --PhoneInputCountrySelectArrow-width: 0.5em;
+  --PhoneInputCountrySelectArrow-marginLeft: 0.5em;
+  --PhoneInputCountrySelectArrow-borderWidth: 2px;
+  --PhoneInputCountrySelectArrow-opacity: 0.6;
+  --PhoneInputCountrySelectArrow-color: #CCCCCC;
+  --PhoneInputCountrySelectArrow-color--focus: #91CB7D;
+  --PhoneInputCountrySelectArrow-transform: rotate(45deg);
+}
+
+/* Темная тема для PhoneInput */
+.PhoneInput input {
+  background-color: #222222 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  width: 100% !important;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.PhoneInput input:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #91CB7D !important;
+}
+
+.PhoneInputCountry {
+  background-color: #222222 !important;
+  padding: 0.5rem !important;
+  border-radius: 0.5rem 0 0 0.5rem !important;
+  margin-right: 2px !important;
+}
+
+.PhoneInputCountrySelect {
+  background-color: #222222 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+
+.PhoneInputCountryIcon {
+  background-color: transparent !important;
+}
+
+.PhoneInputCountrySelectArrow {
+  border-color: #91CB7D !important;
+}
+/* Стили для PhoneInput с валидацией */
+.phone-input-custom {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+.phone-input-custom .PhoneInputCountry {
+  background-color: #222222 !important;
+  padding: 0.75rem 0.5rem !important;
+  border-radius: 0.5rem 0 0 0.5rem !important;
+  margin: 0 !important;
+  height: 100% !important;
+  min-width: 60px !important;
+  justify-content: center !important;
+}
+
+.phone-input-custom .PhoneInputCountrySelect {
+  background-color: #222222 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  padding: 0.5rem !important;
+  border-radius: 0.5rem !important;
+}
+
+.phone-input-custom .PhoneInputCountryIcon {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.phone-input-custom .PhoneInputCountryIconImg {
+  border-radius: 4px !important;
+}
+
+.phone-input-custom .PhoneInputCountrySelectArrow {
+  border-color: #91CB7D !important;
+  margin-left: 0.5rem !important;
+}
+
+.phone-input-custom input {
+  background-color: #222222 !important;
+  color: #FFFFFF !important;
+  border: 2px solid transparent !important;
+  border-radius: 0 0.5rem 0.5rem 0 !important;
+  padding: 0.75rem 2.5rem 0.75rem 1rem !important;
+  width: 100% !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  transition: all 0.3s ease !important;
+}
+
+.phone-input-custom input:focus {
+  outline: none !important;
+  border-color: #91CB7D !important;
+  box-shadow: 0 0 0 3px rgba(145, 203, 125, 0.2) !important;
+}
+
+.phone-input-custom.phone-input-error input {
+  border-color: #FF4444 !important;
+  background-color: rgba(255, 68, 68, 0.1) !important;
+}
+
+.phone-input-custom.phone-input-success input {
+  border-color: #00C851 !important;
+}
+
+.phone-input-custom input::placeholder {
+  color: #666666 !important;
+  opacity: 0.7 !important;
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+  .phone-input-custom .PhoneInputCountry {
+    padding: 0.6rem 0.4rem !important;
+    min-width: 50px !important;
+  }
+
+  .phone-input-custom input {
+    padding: 0.6rem 2.2rem 0.6rem 0.8rem !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Анимация для подсказок */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-error, .text-success, .text-accent {
+  animation: slideIn 0.3s ease-out;
+}

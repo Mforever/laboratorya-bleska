@@ -18,7 +18,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-bg-primary">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-bg-primary">
       {/* Фоновое изображение */}
       {imageLoaded && (
         <div className="absolute inset-0 z-0">
@@ -33,13 +33,13 @@ const Hero: React.FC = () => {
         </div>
       )}
 
-      {/* Контент */}
+      {/* Контент - центрированный */}
       <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl"
+          className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto"
         >
           {/* Надзаголовок */}
           <motion.p
@@ -66,17 +66,17 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-lg md:text-xl text-text-secondary mb-8 max-w-2xl"
+            className="text-lg md:text-xl text-text-secondary mb-8 max-w-2xl mx-auto"
           >
             Вернем блеск нового авто. Полировка, керамика, бронирование в Омске
           </motion.p>
 
-          {/* Кнопки */}
+          {/* Кнопки - центрированные */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-wrap gap-3"
+            className="flex flex-wrap gap-3 justify-center"
           >
             <Button onClick={() => handleServiceClick('/polish')} size="compact">
               Полировка
