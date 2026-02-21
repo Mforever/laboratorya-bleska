@@ -1,3 +1,4 @@
+// src/components/layout/Footer.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import LogoImage from '../ui/LogoImage';
@@ -14,14 +15,18 @@ const Footer: React.FC = () => {
     <footer className="bg-bg-secondary py-12">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Логотип и описание */}
           <div>
-            {/* Логотип в футере */}
-            <LogoImage variant="footer" />
+            <LogoImage variant="light" /> {/* Изменено с "footer" на "light" */}
             <p className="text-text-secondary text-sm mt-4">
               Премиальный детейлинг в Омске
             </p>
+            <p className="text-text-secondary text-xs mt-2">
+              Лаборатория блеска
+            </p>
           </div>
 
+          {/* Остальной код без изменений */}
           <div>
             <h4 className="font-semibold mb-4 text-text-primary">Меню</h4>
             <ul className="space-y-2">

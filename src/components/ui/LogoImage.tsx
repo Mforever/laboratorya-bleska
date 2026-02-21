@@ -7,6 +7,7 @@ interface LogoImageProps {
 }
 
 const LogoImage: React.FC<LogoImageProps> = ({ variant = 'light', className = '' }) => {
+  // Определяем путь к логотипу в зависимости от варианта
   const logoSrc = variant === 'light'
     ? '/images/logo/logo-white.svg'
     : '/images/logo/logo.svg';
