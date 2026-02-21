@@ -1,3 +1,4 @@
+// src/components/ui/Button.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -27,30 +28,25 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   fullWidth = false,
 }) => {
-  // Базовые классы
   const baseClasses = 'font-medium rounded-md transition-all duration-300 inline-flex items-center justify-center';
 
-  // Классы для размеров
   const sizeClasses = {
     default: 'px-6 py-3 text-base',
     compact: 'px-5 py-2 text-sm',
     small: 'px-4 py-1.5 text-sm'
   };
 
-  // Классы для вариантов
   const variantClasses = {
     primary: 'bg-accent hover:bg-accent-hover text-bg-primary hover:scale-105',
     outline: 'border border-accent text-accent hover:bg-accent hover:text-bg-primary',
     ghost: 'text-text-primary hover:text-accent border-b border-transparent hover:border-accent'
   };
 
-  // Дополнительные классы
   const widthClass = fullWidth ? 'w-full' : '';
   const disabledClass = disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '';
 
   const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${widthClass} ${disabledClass} ${className}`;
 
-  // Если есть href, рендерим ссылку
   if (href) {
     return (
       <motion.a
@@ -64,7 +60,6 @@ const Button: React.FC<ButtonProps> = ({
     );
   }
 
-  // Иначе рендерим кнопку
   return (
     <motion.button
       type={type}
