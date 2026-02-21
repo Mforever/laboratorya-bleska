@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import LogoImage from '../ui/LogoImage';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +17,6 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Закрываем мобильное меню при смене маршрута
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
@@ -25,7 +25,6 @@ const Header: React.FC = () => {
     setIsOpen(false);
 
     if (location.pathname === path) {
-      // Если мы уже на нужной странице, просто скроллим к секции
       if (sectionId) {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -33,9 +32,7 @@ const Header: React.FC = () => {
         }
       }
     } else {
-      // Если мы на другой странице, переходим и потом скроллим
       navigate(path);
-      // Даем время на загрузку страницы, потом скроллим
       if (sectionId) {
         setTimeout(() => {
           const element = document.getElementById(sectionId);
@@ -61,30 +58,16 @@ const Header: React.FC = () => {
     { path: '/contacts', label: 'Контакты', section: 'contacts' }
   ];
 
-  const handleLogoClick = () => {
-    setIsOpen(false);
-    if (location.pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      navigate('/');
-    }
-  };
-
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-bg-primary/95 backdrop-blur-md py-4' : 'bg-transparent py-6'
+        isScrolled ? 'bg-bg-primary/95 backdrop-blur-md py-3' : 'bg-transparent py-5'
       }`}
     >
       <div className="container-custom">
         <nav className="flex items-center justify-between">
-          <button
-            onClick={handleLogoClick}
-            className="text-2xl font-bold hover:text-accent transition-colors"
-          >
-            <span className="text-accent">Лаборатория</span>
-            <span className="text-text-primary"> блеска</span>
-          </button>
+          {/* Логотип изображением */}
+          <LogoImage variant="header" />
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
@@ -92,15 +75,15 @@ const Header: React.FC = () => {
               <div key={index} className="relative group">
                 {item.submenu ? (
                   <>
-                    <button className="text-text-secondary hover:text-accent transition-colors">
+                    <button className="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
                       {item.label}
                     </button>
-                    <div className="absolute top-full left-0 mt-2 w-64 bg-bg-secondary rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                    <div className="absolute top-full left-0 mt-2 w-56 bg-bg-secondary rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                       {item.submenu.map((subitem, subIndex) => (
                         <button
                           key={subIndex}
                           onClick={() => handleNavigation(subitem.path)}
-                          className="block w-full text-left px-4 py-3 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors"
+                          className="block w-full text-left px-4 py-2.5 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors text-sm"
                         >
                           {subitem.label}
                         </button>
@@ -110,8 +93,10 @@ const Header: React.FC = () => {
                 ) : (
                   <button
                     onClick={() => handleNavigation(item.path, item.section)}
-                    className={`text-text-secondary hover:text-accent transition-colors ${
-                      location.pathname === item.path ? 'text-accent' : ''
+                    className={`text-sm font-medium transition-colors ${
+                      location.pathname === item.path
+                        ? 'text-accent'
+                        : 'text-text-secondary hover:text-accent'
                     }`}
                   >
                     {item.label}
@@ -121,9 +106,18 @@ const Header: React.FC = () => {
             ))}
           </div>
 
+          {/* Кнопка телефона для десктопа */}
+          <a
+            href="tel:+79620555858"
+            className="hidden md:flex items-center gap-2 text-accent hover:text-accent-hover transition-colors text-sm font-medium"
+          >
+            <i className="fas fa-phone"></i>
+            <span>+7 (962) 055-58-58</span>
+          </a>
+
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-2xl"
+            className="md:hidden text-2xl text-text-primary"
             onClick={() => setIsOpen(!isOpen)}
           >
             <i className={`fas fa-${isOpen ? 'times' : 'bars'}`}></i>
@@ -143,14 +137,14 @@ const Header: React.FC = () => {
                 <div key={index}>
                   {item.submenu ? (
                     <div className="border-b border-bg-element last:border-0">
-                      <div className="px-4 py-3 text-text-secondary font-semibold">
+                      <div className="px-4 py-3 text-text-secondary font-medium">
                         {item.label}
                       </div>
                       {item.submenu.map((subitem, subIndex) => (
                         <button
                           key={subIndex}
                           onClick={() => handleNavigation(subitem.path)}
-                          className="block w-full text-left px-8 py-3 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors"
+                          className="block w-full text-left px-8 py-2.5 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors text-sm"
                         >
                           {subitem.label}
                         </button>
@@ -159,13 +153,22 @@ const Header: React.FC = () => {
                   ) : (
                     <button
                       onClick={() => handleNavigation(item.path, item.section)}
-                      className="block w-full text-left px-4 py-3 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors border-b border-bg-element last:border-0"
+                      className="block w-full text-left px-4 py-3 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors border-b border-bg-element last:border-0 text-sm"
                     >
                       {item.label}
                     </button>
                   )}
                 </div>
               ))}
+
+              {/* Телефон в мобильном меню */}
+              <a
+                href="tel:+79620555858"
+                className="flex items-center gap-2 px-4 py-3 text-accent hover:bg-bg-element transition-colors text-sm border-t border-bg-element"
+              >
+                <i className="fas fa-phone"></i>
+                <span>+7 (962) 055-58-58</span>
+              </a>
             </motion.div>
           )}
         </AnimatePresence>
