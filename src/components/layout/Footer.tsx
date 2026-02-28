@@ -1,10 +1,10 @@
-// src/components/layout/Footer.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import LogoImage from '../ui/LogoImage';
+import Logo from '../ui/Logo';
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();
+  const currentYear = new Date().getFullYear();
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -14,122 +14,127 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-bg-secondary py-12">
       <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Логотип и описание */}
-          <div>
-            <LogoImage variant="light" /> {/* Изменено с "footer" на "light" */}
-            <p className="text-text-secondary text-sm mt-4">
-              Премиальный детейлинг в Омске
-            </p>
-            <p className="text-text-secondary text-xs mt-2">
-              Лаборатория блеска
-            </p>
-          </div>
+        {/* Верхняя часть с логотипом и соцсетями */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+          <Logo variant="light" showText={true} />
 
-          {/* Остальной код без изменений */}
+          <div className="flex gap-4">
+            <a
+              href="https://t.me/rudenko_ds"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-bg-element rounded-lg flex items-center justify-center text-accent hover:bg-accent hover:text-bg-primary transition-all"
+              aria-label="Telegram"
+            >
+              <i className="fab fa-telegram-plane"></i>
+            </a>
+            <a
+              href="https://wa.me/79620555858"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-bg-element rounded-lg flex items-center justify-center text-accent hover:bg-accent hover:text-bg-primary transition-all"
+              aria-label="WhatsApp"
+            >
+              <i className="fab fa-whatsapp"></i>
+            </a>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-bg-element rounded-lg flex items-center justify-center text-accent hover:bg-accent hover:text-bg-primary transition-all"
+              aria-label="Instagram"
+            >
+              <i className="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+
+        {/* Основные ссылки */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 border-t border-white/10">
           <div>
-            <h4 className="font-semibold mb-4 text-text-primary">Меню</h4>
+            <h4 className="font-semibold text-sm text-text-primary mb-3">Навигация</h4>
             <ul className="space-y-2">
               <li>
-                <button
-                  onClick={() => handleNavigation('/')}
-                  className="text-text-secondary hover:text-accent transition-colors text-sm"
-                >
+                <button onClick={() => handleNavigation('/')} className="text-text-secondary hover:text-accent text-sm">
                   Главная
                 </button>
               </li>
               <li>
-                <button
-                  onClick={() => handleNavigation('/polish')}
-                  className="text-text-secondary hover:text-accent transition-colors text-sm"
-                >
-                  Полировка
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNavigation('/ceramic')}
-                  className="text-text-secondary hover:text-accent transition-colors text-sm"
-                >
-                  Керамика
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNavigation('/ppf')}
-                  className="text-text-secondary hover:text-accent transition-colors text-sm"
-                >
-                  Бронирование
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNavigation('/gallery')}
-                  className="text-text-secondary hover:text-accent transition-colors text-sm"
-                >
+                <button onClick={() => handleNavigation('/gallery')} className="text-text-secondary hover:text-accent text-sm">
                   Галерея
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavigation('/contacts')} className="text-text-secondary hover:text-accent text-sm">
+                  Контакты
                 </button>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4 text-text-primary">Контакты</h4>
+            <h4 className="font-semibold text-sm text-text-primary mb-3">Услуги</h4>
             <ul className="space-y-2">
               <li>
-                <a href="tel:+79620555858" className="text-text-secondary hover:text-accent transition-colors text-sm flex items-center gap-2">
-                  <i className="fas fa-phone text-accent text-xs"></i>
+                <button onClick={() => handleNavigation('/polish')} className="text-text-secondary hover:text-accent text-sm">
+                  Полировка
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavigation('/ceramic')} className="text-text-secondary hover:text-accent text-sm">
+                  Керамика
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleNavigation('/ppf')} className="text-text-secondary hover:text-accent text-sm">
+                  Бронирование
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold text-sm text-text-primary mb-3">Контакты</h4>
+            <ul className="space-y-2">
+              <li>
+                <a href="tel:+79620555858" className="text-text-secondary hover:text-accent text-sm block">
                   +7 (962) 055-58-58
                 </a>
               </li>
               <li>
-                <a href="mailto:mforever040@gmail.com" className="text-text-secondary hover:text-accent transition-colors text-sm flex items-center gap-2">
-                  <i className="fas fa-envelope text-accent text-xs"></i>
-                  mforever040@gmail.com
+                <a href="https://t.me/rudenko_ds" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-accent text-sm block">
+                  @rudenko_ds
                 </a>
               </li>
-              <li className="text-text-secondary text-sm flex items-center gap-2">
-                <i className="fas fa-map-marker-alt text-accent text-xs"></i>
+              <li className="text-text-secondary text-sm">
                 Омск, Индустриальная 5Б
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4 text-text-primary">Мы в соцсетях</h4>
-            <div className="flex space-x-3">
-              <a
-                href="https://t.me/rudenko_ds"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 bg-bg-element rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-bg-primary transition-colors"
-              >
-                <i className="fab fa-telegram-plane"></i>
-              </a>
-              <a
-                href="#"
-                className="w-9 h-9 bg-bg-element rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-bg-primary transition-colors"
-              >
-                <i className="fab fa-instagram"></i>
-              </a>
-              <a
-                href="#"
-                className="w-9 h-9 bg-bg-element rounded-full flex items-center justify-center text-accent hover:bg-accent hover:text-bg-primary transition-colors"
-              >
-                <i className="fab fa-whatsapp"></i>
-              </a>
-            </div>
+            <h4 className="font-semibold text-sm text-text-primary mb-3">Информация</h4>
+            <ul className="space-y-2">
+              <li>
+                <button onClick={() => handleNavigation('/privacy')} className="text-text-secondary hover:text-accent text-sm">
+                  Политика
+                </button>
+              </li>
+              <li className="text-text-secondary text-sm">
+                Работаем с 2015
+              </li>
+              <li className="text-text-secondary text-sm">
+                <span className="text-accent">★</span> 5.0 рейтинг
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="border-t border-bg-element mt-8 pt-8 text-center text-text-secondary text-sm">
-          <p>&copy; {new Date().getFullYear()} Лаборатория блеска. Все права защищены.</p>
-          <button
-            onClick={() => handleNavigation('/privacy')}
-            className="text-xs hover:text-accent transition-colors mt-2 inline-block"
-          >
-            Политика конфиденциальности
-          </button>
+        {/* Нижняя часть */}
+        <div className="pt-8 border-t border-white/10 text-center">
+          <p className="text-text-secondary text-sm">
+            © {currentYear} Лаборатория блеска. Все права защищены.
+          </p>
         </div>
       </div>
     </footer>

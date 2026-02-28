@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export type ButtonVariant = 'primary' | 'outline' | 'ghost';
-export type ButtonSize = 'default' | 'compact' | 'small';
+export type ButtonSize = 'small' | 'default' | 'large';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -28,18 +28,18 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   fullWidth = false,
 }) => {
-  const baseClasses = 'font-medium rounded-md transition-all duration-300 inline-flex items-center justify-center';
+  const baseClasses = 'font-medium rounded-xl transition-all duration-300 inline-flex items-center justify-center';
 
   const sizeClasses = {
+    small: 'px-4 py-2 text-sm',
     default: 'px-6 py-3 text-base',
-    compact: 'px-5 py-2 text-sm',
-    small: 'px-4 py-1.5 text-sm'
+    large: 'px-8 py-4 text-lg'
   };
 
   const variantClasses = {
-    primary: 'bg-accent hover:bg-accent-hover text-bg-primary hover:scale-105',
-    outline: 'border border-accent text-accent hover:bg-accent hover:text-bg-primary',
-    ghost: 'text-text-primary hover:text-accent border-b border-transparent hover:border-accent'
+    primary: 'bg-accent hover:bg-accent-hover text-bg-primary hover:scale-105 hover:shadow-lg hover:shadow-accent/25',
+    outline: 'border-2 border-accent text-accent hover:bg-accent hover:text-bg-primary',
+    ghost: 'text-text-secondary hover:text-accent'
   };
 
   const widthClass = fullWidth ? 'w-full' : '';

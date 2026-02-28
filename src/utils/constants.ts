@@ -1,3 +1,4 @@
+// src/utils/constants.ts
 import { Advantage, GalleryItem, Review, FAQItem, CarZone } from '../types';
 
 export const ADVANTAGES: Advantage[] = [
@@ -120,77 +121,63 @@ export const CAR_ZONES: CarZone[] = [
   { id: 'trunk', name: 'Багажник', price: 5000 }
 ];
 
+// Обновленный массив галереи с новыми типами
 export const GALLERY_ITEMS: GalleryItem[] = [
+  // Полировка BMW
   {
     id: 1,
-    category: 'polish',
-    title: 'BMW X5',
-    beforeAfter: 'До/После',
-    image: '/images/gallery/bmw-polish.jpg',
-    carModel: 'BMW X5'
+    title: 'Глубокая полировка',
+    carModel: 'BMW X5 (2022)',
+    mediaType: 'image',
+    beforeImage: '/images/gallery/bmw-x5-before.jpg',
+    afterImage: '/images/gallery/bmw-x5-after.jpg',
+    description: 'Полное восстановление ЛКП, удаление голограмм и царапин'
   },
   {
     id: 2,
-    category: 'polish',
-    title: 'Mercedes E-Class',
-    beforeAfter: 'До/После',
-    image: '/images/gallery/mercedes-polish.jpg',
-    carModel: 'Mercedes E-Class'
+    title: 'Керамическое покрытие',
+    carModel: 'Porsche Cayenne',
+    mediaType: 'image',
+    beforeImage: '/images/gallery/porsche-before.jpg',
+    afterImage: '/images/gallery/porsche-after.jpg',
+    description: 'Нанесение керамики премиум-класса, гидрофобный эффект'
   },
   {
     id: 3,
-    category: 'ceramic',
-    title: 'Audi Q7',
-    beforeAfter: 'После',
-    image: '/images/gallery/audi-ceramic.jpg',
-    carModel: 'Audi Q7'
+    title: 'Процесс бронирования пленкой',
+    carModel: 'Tesla Model 3',
+    mediaType: 'video',
+    videoPlatform: 'vk',
+    videoUrl: 'https://vk.com/video_ext.php?oid=-99576867&id=456239018&hd=2&autoplay=1',
+    videoThumbnail: '/images/gallery/tesla-ppf-preview.jpg',
+    description: 'Пошаговый процесс оклейки защитной пленкой'
   },
   {
     id: 4,
-    category: 'ceramic',
-    title: 'Lexus LX',
-    beforeAfter: 'После',
-    image: '/images/gallery/lexus-ceramic.jpg',
-    carModel: 'Lexus LX'
+    title: 'Восстановление после зимы',
+    carModel: 'Mercedes E-Class',
+    mediaType: 'image',
+    beforeImage: '/images/gallery/mercedes-before.jpg',
+    afterImage: '/images/gallery/mercedes-after.jpg',
+    description: 'Удаление зимних дефектов, защитная полировка'
   },
   {
     id: 5,
-    category: 'ppf',
-    title: 'Porsche Cayenne',
-    beforeAfter: 'До/После',
-    image: '/images/gallery/porsche-ppf.jpg',
-    carModel: 'Porsche Cayenne'
+    title: 'Керамическое покрытие',
+    carModel: 'Lexus LX 600',
+    mediaType: 'video',
+    videoPlatform: 'rutube',
+    videoUrl: 'https://rutube.ru/play/embed/9e4cd81a6b2566e9d949881dbb53905e/',
+    videoThumbnail: '/images/gallery/lexus-ceramic-preview.jpg',
+    description: 'Двухслойное керамическое покрытие, защита на 3 года'
   },
   {
     id: 6,
-    category: 'ppf',
-    title: 'Range Rover',
-    beforeAfter: 'До/После',
-    image: '/images/gallery/rang rover-ppf.jpg',
-    carModel: 'Range Rover'
-  },
-  {
-    id: 7,
-    category: 'polish',
-    title: 'Toyota Camry',
-    beforeAfter: 'До/После',
-    image: '/images/gallery/toyota-polish.jpg',
-    carModel: 'Toyota Camry'
-  },
-  {
-    id: 8,
-    category: 'ceramic',
-    title: 'Kia K5',
-    beforeAfter: 'После',
-    image: '/images/gallery/kia-ceramic.jpg',
-    carModel: 'Kia K5'
-  },
-  {
-    id: 9,
-    category: 'ppf',
-    title: 'Tesla Model 3',
-    beforeAfter: 'До/После',
-    image: '/images/gallery/tesla-ppf.jpg',
-    carModel: 'Tesla Model 3'
+    title: 'Полная оклейка пленкой',
+    carModel: 'BMW X7',
+    mediaType: 'image',
+    beforeImage: '/images/gallery/bmw-x7-before.jpg',
+    afterImage: '/images/gallery/bmw-x7-after.jpg',
+    description: 'Бронирование всего кузова премиальной пленкой'
   }
 ];

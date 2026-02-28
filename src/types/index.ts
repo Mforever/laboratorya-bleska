@@ -1,3 +1,4 @@
+// src/types/index.ts
 export interface Service {
   id: string;
   title: string;
@@ -22,13 +23,21 @@ export interface Review {
   rating: number;
 }
 
+export type MediaType = 'image' | 'video';
+
 export interface GalleryItem {
   id: number;
-  category: 'polish' | 'ceramic' | 'ppf';
   title: string;
-  beforeAfter: 'До/После' | 'После';
-  image: string;
   carModel: string;
+  mediaType: MediaType;
+  // Для изображений
+  beforeImage?: string;
+  afterImage?: string;
+  // Для видео
+  videoUrl?: string;
+  videoPlatform?: 'vk' | 'rutube';
+  videoThumbnail?: string;
+  description?: string;
 }
 
 export interface FAQItem {
@@ -48,7 +57,6 @@ export interface ContactFormData {
   phone: string;
   car?: string;
   service?: string;
-  email?: string;
   message?: string;
   selectedZones?: string;
   totalPrice?: number;

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import LogoImage from '../ui/LogoImage';
+import Logo from '../ui/Logo';
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -19,84 +20,111 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     setIsOpen(false);
+    setActiveDropdown(null);
   }, [location]);
 
-  const handleNavigation = (path: string, sectionId?: string) => {
-    setIsOpen(false);
-
-    if (location.pathname === path) {
-      if (sectionId) {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    } else {
-      navigate(path);
-      if (sectionId) {
-        setTimeout(() => {
-          const element = document.getElementById(sectionId);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }, 100);
-      }
-    }
-  };
+  // Закрытие дропдауна при клике вне
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setActiveDropdown(null);
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   const menuItems = [
-    { path: '/', label: 'Главная', section: 'hero' },
+    { path: '/', label: 'Главная' },
     {
       label: 'Услуги',
-      submenu: [
+      dropdown: [
         { path: '/polish', label: 'Полировка кузова' },
         { path: '/ceramic', label: 'Керамическое покрытие' },
         { path: '/ppf', label: 'Бронирование пленкой' }
       ]
     },
     { path: '/gallery', label: 'Галерея' },
-    { path: '/contacts', label: 'Контакты', section: 'contacts' }
+    { path: '/contacts', label: 'Контакты' }
   ];
+
+  const handleDropdownClick = (e: React.MouseEvent, label: string) => {
+    e.stopPropagation();
+    setActiveDropdown(activeDropdown === label ? null : label);
+  };
+
+  // Функция открытия модалки
+  const openBookingModal = () => {
+    const event = new CustomEvent('openModal', {
+      detail: { serviceType: 'general', serviceName: 'услугу' }
+    });
+    window.dispatchEvent(event);
+  };
 
   return (
     <header
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-bg-primary/95 backdrop-blur-md py-3' : 'bg-transparent py-5'
+      className={`fixed w-full z-50 transition-all duration-500 ${
+        isScrolled
+          ? 'bg-bg-primary/95 backdrop-blur-md py-3 shadow-lg'
+          : 'bg-transparent py-5'
       }`}
     >
       <div className="container-custom">
         <nav className="flex items-center justify-between">
-          {/* Логотип изображением */}
-          <LogoImage variant="light" />
+          {/* Логотип */}
+          <Logo variant="light" showText={true} />
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            {menuItems.map((item, index) => (
-              <div key={index} className="relative group">
-                {item.submenu ? (
+          <div className="hidden md:flex items-center gap-1">
+            {menuItems.map((item) => (
+              <div key={item.label} className="relative">
+                {item.dropdown ? (
                   <>
-                    <button className="text-text-secondary hover:text-accent transition-colors text-sm font-medium">
+                    <button
+                      onClick={(e) => handleDropdownClick(e, item.label)}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                        activeDropdown === item.label
+                          ? 'bg-accent text-bg-primary'
+                          : 'text-text-secondary hover:text-accent hover:bg-white/5'
+                      }`}
+                    >
                       {item.label}
+                      <i className={`fas fa-chevron-down text-xs transition-transform duration-300 ${
+                        activeDropdown === item.label ? 'rotate-180' : ''
+                      }`}></i>
                     </button>
-                    <div className="absolute top-full left-0 mt-2 w-56 bg-bg-secondary rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                      {item.submenu.map((subitem, subIndex) => (
-                        <button
-                          key={subIndex}
-                          onClick={() => handleNavigation(subitem.path)}
-                          className="block w-full text-left px-4 py-2.5 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors text-sm"
+
+                    {/* Dropdown menu */}
+                    <AnimatePresence>
+                      {activeDropdown === item.label && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-0 mt-2 w-56 bg-bg-secondary rounded-xl shadow-xl overflow-hidden border border-white/5"
                         >
-                          {subitem.label}
-                        </button>
-                      ))}
-                    </div>
+                          {item.dropdown.map((subitem) => (
+                            <button
+                              key={subitem.path}
+                              onClick={() => {
+                                navigate(subitem.path);
+                                setActiveDropdown(null);
+                              }}
+                              className="w-full text-left px-4 py-3 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors text-sm"
+                            >
+                              {subitem.label}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </>
                 ) : (
                   <button
-                    onClick={() => handleNavigation(item.path, item.section)}
-                    className={`text-sm font-medium transition-colors ${
+                    onClick={() => navigate(item.path)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       location.pathname === item.path
-                        ? 'text-accent'
-                        : 'text-text-secondary hover:text-accent'
+                        ? 'bg-accent text-bg-primary'
+                        : 'text-text-secondary hover:text-accent hover:bg-white/5'
                     }`}
                   >
                     {item.label}
@@ -106,21 +134,30 @@ const Header: React.FC = () => {
             ))}
           </div>
 
-          {/* Кнопка телефона для десктопа */}
-          <a
-            href="tel:+79620555858"
-            className="hidden md:flex items-center gap-2 text-accent hover:text-accent-hover transition-colors text-sm font-medium"
-          >
-            <i className="fas fa-phone"></i>
-            <span>+7 (962) 055-58-58</span>
-          </a>
+          {/* Contact info */}
+          <div className="hidden md:flex items-center gap-4">
+            <a
+              href="tel:+79620555858"
+              className="flex items-center gap-2 text-accent hover:text-accent-hover transition-colors"
+            >
+              <i className="fas fa-phone-alt text-sm"></i>
+              <span className="text-sm font-medium">+7 (962) 055-58-58</span>
+            </a>
+            <button
+              onClick={openBookingModal}
+              className="px-4 py-2 bg-accent hover:bg-accent-hover text-bg-primary text-sm font-medium rounded-lg transition-all hover:scale-105"
+            >
+              Записаться
+            </button>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-2xl text-text-primary"
             onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden w-10 h-10 rounded-lg bg-white/5 hover:bg-accent/20 text-text-secondary hover:text-accent transition-all flex items-center justify-center"
+            aria-label="Меню"
           >
-            <i className={`fas fa-${isOpen ? 'times' : 'bars'}`}></i>
+            <i className={`fas fa-${isOpen ? 'times' : 'bars'} text-lg`}></i>
           </button>
         </nav>
 
@@ -131,44 +168,68 @@ const Header: React.FC = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 bg-bg-secondary rounded-lg overflow-hidden"
+              transition={{ duration: 0.3 }}
+              className="md:hidden mt-4 bg-bg-secondary rounded-xl overflow-hidden border border-white/5"
             >
-              {menuItems.map((item, index) => (
-                <div key={index}>
-                  {item.submenu ? (
-                    <div className="border-b border-bg-element last:border-0">
-                      <div className="px-4 py-3 text-text-secondary font-medium">
-                        {item.label}
+              <div className="p-2">
+                {menuItems.map((item) => (
+                  <div key={item.label}>
+                    {item.dropdown ? (
+                      <div className="border-b border-white/5 last:border-0">
+                        <div className="px-4 py-3 text-text-secondary font-medium">
+                          {item.label}
+                        </div>
+                        {item.dropdown.map((subitem) => (
+                          <button
+                            key={subitem.path}
+                            onClick={() => {
+                              navigate(subitem.path);
+                              setIsOpen(false);
+                            }}
+                            className="w-full text-left px-8 py-3 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors text-sm"
+                          >
+                            {subitem.label}
+                          </button>
+                        ))}
                       </div>
-                      {item.submenu.map((subitem, subIndex) => (
-                        <button
-                          key={subIndex}
-                          onClick={() => handleNavigation(subitem.path)}
-                          className="block w-full text-left px-8 py-2.5 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors text-sm"
-                        >
-                          {subitem.label}
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => handleNavigation(item.path, item.section)}
-                      className="block w-full text-left px-4 py-3 text-text-secondary hover:text-accent hover:bg-bg-element transition-colors border-b border-bg-element last:border-0 text-sm"
-                    >
-                      {item.label}
-                    </button>
-                  )}
-                </div>
-              ))}
+                    ) : (
+                      <button
+                        onClick={() => {
+                          navigate(item.path);
+                          setIsOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
+                          location.pathname === item.path
+                            ? 'bg-accent text-bg-primary'
+                            : 'text-text-secondary hover:bg-bg-element'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    )}
+                  </div>
+                ))}
 
-              {/* Телефон в мобильном меню */}
-              <a
-                href="tel:+79620555858"
-                className="flex items-center gap-2 px-4 py-3 text-accent hover:bg-bg-element transition-colors text-sm border-t border-bg-element"
-              >
-                <i className="fas fa-phone"></i>
-                <span>+7 (962) 055-58-58</span>
-              </a>
+                {/* Mobile contact info */}
+                <div className="mt-4 pt-4 border-t border-white/5 space-y-3">
+                  <a
+                    href="tel:+79620555858"
+                    className="flex items-center gap-3 px-4 py-3 text-accent hover:bg-bg-element rounded-lg transition-colors"
+                  >
+                    <i className="fas fa-phone-alt"></i>
+                    <span className="text-sm font-medium">+7 (962) 055-58-58</span>
+                  </a>
+                  <button
+                    onClick={() => {
+                      openBookingModal();
+                      setIsOpen(false);
+                    }}
+                    className="w-full px-4 py-3 bg-accent hover:bg-accent-hover text-bg-primary text-sm font-medium rounded-lg transition-all"
+                  >
+                    Записаться онлайн
+                  </button>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

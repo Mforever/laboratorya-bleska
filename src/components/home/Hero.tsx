@@ -18,93 +18,69 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-bg-primary">
+    <section className="relative pt-32 pb-20 overflow-hidden">
       {/* Фоновое изображение */}
       {imageLoaded && (
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0">
-            <img
-              src="/images/hero-background.jpg"
-              alt="Детейлинг студия Лаборатория блеска"
-              className="w-full h-full object-cover scale-105 filter blur-[2px]"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30"></div>
+          <img
+            src="/images/hero-background.jpg"
+            alt="Детейлинг студия фон"
+            className="w-full h-full object-cover"
+          />
+          {/* УМЕНЬШЕННОЕ ЗАТЕМНЕНИЕ - меняем прозрачность */}
+          <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/70 via-bg-primary/60 to-bg-primary/50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/40 via-transparent to-transparent" />
         </div>
       )}
 
-      {/* Контент - центрированный */}
       <div className="container-custom relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="flex flex-col items-center justify-center text-center max-w-4xl mx-auto"
-        >
-          {/* Надзаголовок */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-accent text-lg md:text-xl font-semibold mb-3 tracking-wider"
-          >
-            Лаборатория блеска
-          </motion.p>
-
-          {/* Заголовок */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4"
-          >
-            Снова как новый
-          </motion.h1>
-
-          {/* Описание */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-lg md:text-xl text-text-secondary mb-8 max-w-2xl mx-auto"
-          >
-            Вернем блеск нового авто. Полировка, керамика, бронирование в Омске
-          </motion.p>
-
-          {/* Кнопки - центрированные */}
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Левая колонка */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-wrap gap-3 justify-center"
+            transition={{ duration: 0.6 }}
+            className="text-center lg:text-left"
           >
-            <Button onClick={() => handleServiceClick('/polish')} size="compact">
-              Полировка
-            </Button>
-            <Button onClick={() => handleServiceClick('/ceramic')} size="compact">
-              Керамика
-            </Button>
-            <Button onClick={() => handleServiceClick('/ppf')} size="compact">
-              Бронирование
-            </Button>
-          </motion.div>
-        </motion.div>
-      </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              Снова <span className="text-accent">как новый</span>
+            </h1>
+            <p className="text-text-secondary text-lg mb-8 max-w-lg mx-auto lg:mx-0">
+              Вернем блеск нового авто. Полировка, керамика, бронирование в Омске
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
+              <Button size="large" onClick={() => handleServiceClick('/polish')}>
+                Полировка
+              </Button>
+              <Button variant="outline" size="large" onClick={() => handleServiceClick('/ceramic')}>
+                Керамика
+              </Button>
+              <Button variant="outline" size="large" onClick={() => handleServiceClick('/ppf')}>
+                Бронирование
+              </Button>
+            </div>
 
-      {/* Индикатор скролла */}
-      <motion.button
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer z-10"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 1.5 }}
-        onClick={() => {
-          const element = document.getElementById('advantages');
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        }}
-      >
-        <i className="fas fa-chevron-down text-2xl text-accent"></i>
-      </motion.button>
+            {/* Статистика */}
+            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/10 max-w-md mx-auto lg:mx-0">
+              <div className="text-center lg:text-left">
+                <div className="text-2xl font-bold text-accent">10+</div>
+                <div className="text-sm text-text-secondary/80">лет опыта</div>
+              </div>
+              <div className="text-center lg:text-left">
+                <div className="text-2xl font-bold text-accent">5</div>
+                <div className="text-sm text-text-secondary/80">мастеров</div>
+              </div>
+              <div className="text-center lg:text-left">
+                <div className="text-2xl font-bold text-accent">300+</div>
+                <div className="text-sm text-text-secondary/80">клиентов</div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Правая колонка - пустая */}
+          <div className="hidden lg:block" />
+        </div>
+      </div>
     </section>
   );
 };

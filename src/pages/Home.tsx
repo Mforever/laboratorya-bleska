@@ -1,32 +1,25 @@
-import React, { useEffect } from 'react';
+// src/pages/Home.tsx
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
 import Hero from '../components/home/Hero';
 import Advantages from '../components/home/Advantages';
 import Services from '../components/home/Services';
-import Gallery from '../components/home/Gallery';
+// УДАЛИТЕ эту строку:
+// import Gallery from '../components/home/Gallery';
 import Reviews from '../components/home/Reviews';
 import Process from '../components/home/Process';
 import FAQ from '../components/home/FAQ';
-import ContactForm from '../components/home/ContactForm';
 import Contacts from '../components/home/Contacts';
 
 const Home: React.FC = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    // Обработка якорей при загрузке страницы
-    if (location.hash) {
-      const id = location.hash.replace('#', '');
-      const element = document.getElementById(id);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-    }
-  }, [location]);
+  // Функция открытия модалки
+  const openBookingModal = () => {
+    const event = new CustomEvent('openModal', {
+      detail: { serviceType: 'general', serviceName: 'услугу' }
+    });
+    window.dispatchEvent(event);
+  };
 
   return (
     <motion.div
@@ -42,42 +35,38 @@ const Home: React.FC = () => {
         />
       </Helmet>
 
-      {/* Добавляем id для каждой секции */}
-      <section id="hero">
-        <Hero />
+      <Hero />
+      <Advantages />
+      <Services />
+      {/* УДАЛИТЕ эту строку: */}
+      {/* <Gallery /> */}
+      <Reviews />
+      <Process />
+      <FAQ />
+
+      {/* Блок записи */}
+      <section className="py-20 bg-bg-secondary">
+        <div className="container-custom text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl font-bold mb-4">Запишитесь на детейлинг</h2>
+            <p className="text-text-secondary mb-8 max-w-2xl mx-auto">
+              Оставьте заявку, и мы перезвоним в течение 15 минут, чтобы обсудить все детали
+            </p>
+            <button
+              onClick={openBookingModal}
+              className="px-8 py-3 bg-accent hover:bg-accent-hover text-bg-primary rounded-lg transition-all hover:scale-105"
+            >
+              Записаться онлайн
+            </button>
+          </motion.div>
+        </div>
       </section>
 
-      <section id="advantages">
-        <Advantages />
-      </section>
-
-      <section id="services">
-        <Services />
-      </section>
-
-      <section id="gallery">
-        <Gallery />
-      </section>
-
-      <section id="reviews">
-        <Reviews />
-      </section>
-
-      <section id="process">
-        <Process />
-      </section>
-
-      <section id="faq">
-        <FAQ />
-      </section>
-
-      <section id="contact">
-        <ContactForm />
-      </section>
-
-      <section id="contacts">
-        <Contacts />
-      </section>
+      <Contacts />
     </motion.div>
   );
 };
